@@ -47,6 +47,7 @@
     </style>
 </head>
 <body>
+<jsp:include page="header.jsp" />
 <main>
     <section>
         <div id="form">
