@@ -8,8 +8,10 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet("/user")
 public class UserServlet extends HttpServlet {
@@ -37,6 +39,14 @@ public class UserServlet extends HttpServlet {
                     break;
                 case "adduser":
                     addUser(request, response);
+                    break;
+                case "listuser":
+                    listUser(request, response);
+                    break;
+                case "edituser":
+                    break;
+                case "deleteuser":
+                    deleteUser(request, response);
                     break;
             }
         } catch (Exception ex) {
@@ -71,6 +81,38 @@ public class UserServlet extends HttpServlet {
 
         userDAO.addUser(newUser);
 
-        response.sendRedirect("/user?action=new");
+        response.sendRedirect("/user?action=listuser");
     }
+
+    private void listUser(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+//        HttpSession session = request.getSession();
+//        String role = (String) session.getAttribute("role");
+//
+//        if (!"admin".equals(role)) {
+//            response.sendRedirect("/log_in.jsp");
+//            return;
+//        }
+
+        List<User> users = userDAO.selectAllUsers();
+        request.setAttribute("users", users);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("listUser.jsp");
+        dispatcher.forward(request, response);
+    }
+
+    private void deleteUser(HttpServletRequest request, HttpServletResponse response)
+            throws IOException, ServletException {
+        int userId = Integer.parseInt(request.getParameter("id"));
+        boolean deleted = userDAO.deleteUser(userId);
+
+        if (deleted) {
+            response.sendRedirect("user?action=listuser");
+        } else {
+            request.setAttribute("errorMessage", "Failed to delete user");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("listUser.jsp");
+            dispatcher.forward(request, response);
+        }
+    }
+
 }
