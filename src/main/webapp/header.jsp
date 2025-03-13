@@ -26,22 +26,22 @@
                 <% if ("admin".equals(role)) { %>
                 <li class="nav-item">
                     <a class="nav-link" href="/user?action=listuser">
-                        <button class="btn btn-outline-warning">Liste des utilisateurs</button>
+                        <button class="btn btn-warning">Liste des utilisateurs</button>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/user?action=new">
-                        <button class="btn btn-outline-success">Ajouter un utilisateur</button>
+                        <button class="btn btn-success">Ajouter un utilisateur</button>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/session?action=">
-                        <button class="btn btn-outline-info">Ajouter une session</button>
+                        <button class="btn btn-info">Ajouter une session</button>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/session?action=">
-                        <button class="btn btn-outline-secondary">Liste des sessions</button>
+                        <button class="btn btn-secondary">Liste des sessions</button>
                     </a>
                 </li>
                 <% } %>
@@ -50,12 +50,12 @@
                 <% if ("member".equals(role)) { %>
                 <li class="nav-item">
                     <a class="nav-link" href="/session?action=">
-                        <button class="btn btn-outline-info">Ajouter une session</button>
+                        <button class="btn btn-info">Ajouter une session</button>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/session?action=">
-                        <button class="btn btn-outline-secondary">Liste des sessions</button>
+                        <button class="btn btn-secondary">Liste des sessions</button>
                     </a>
                 </li>
                 <% } %>
@@ -64,12 +64,12 @@
                 <% if ("entraineur".equals(role)) { %>
                 <li class="nav-item">
                     <a class="nav-link" href="/session?action=">
-                        <button class="btn btn-outline-info">Ajouter une session</button>
+                        <button class="btn btn-info">Ajouter une session</button>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/session?action=">
-                        <button class="btn btn-outline-secondary">Liste des sessions</button>
+                        <button class="btn btn-secondary">Liste des sessions</button>
                     </a>
                 </li>
                 <% } %>

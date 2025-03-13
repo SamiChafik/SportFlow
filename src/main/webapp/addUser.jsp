@@ -89,6 +89,10 @@
                             <input class="form-check-input" type="radio" name="role" id="roleentraineur" value="entraineur">
                             <label class="form-check-label" for="roleentraineur">Entraineur</label>
                         </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="role" id="roleadmin" value="admin">
+                            <label class="form-check-label" for="roleadmin">Admin</label>
+                        </div>
                     </div>
                 </div>
                 <!-- Sports List (for Member) -->
