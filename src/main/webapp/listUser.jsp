@@ -45,7 +45,7 @@
                 <td><%= user.getRole() %></td>
                 <td>
                     <!-- Edit Button -->
-                    <a href="/user?action=edit_form&id=<%= user.getId() %>" class="btn btn-warning">Modifier</a>
+                    <a href="/user?action=editform&id=<%= user.getId() %>" class="btn btn-warning">Modifier</a>
                     <!-- Delete Button -->
                     <form action="/user?action=deleteuser" method="post" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this user?');">
                         <input type="hidden" name="id" value="<%= user.getId() %>">

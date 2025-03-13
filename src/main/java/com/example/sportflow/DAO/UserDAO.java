@@ -3,6 +3,7 @@ package com.example.sportflow.DAO;
 import com.example.sportflow.model.User;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -99,7 +100,7 @@ public class UserDAO {
         Connection connection = null;
         try {
             connection = getConnection();
-            connection.setAutoCommit(false); // Start transaction
+            connection.setAutoCommit(false);
 
             String insertUserQuery = "INSERT INTO user (first_name, last_name, birth_date, email, password, role) VALUES (?, ?, ?, ?, ?, ?)";
             try (PreparedStatement userStatement = connection.prepareStatement(insertUserQuery, Statement.RETURN_GENERATED_KEYS)) {
@@ -129,6 +130,7 @@ public class UserDAO {
                             entraineurStatement.setString(2, user.getSpeciality());
                             entraineurStatement.executeUpdate();
                         }
+                    } else if ("admin".equalsIgnoreCase(user.getRole())) {
                     } else {
                         throw new SQLException("Invalid role: " + user.getRole());
                     }
@@ -196,6 +198,112 @@ public class UserDAO {
             System.err.println("SQL Error: " + e.getMessage());
         }
         return users;
+    }
+
+    public User selectUser(int userId) {
+        User user = null;
+        // SQL query to join user, member, and entraineur tables
+        String sql = "SELECT u.user_id, u.first_name, u.last_name, u.birth_date, u.email, u.password, u.role, " +
+                "m.sport, e.speciality " +
+                "FROM user u " +
+                "LEFT JOIN member m ON u.user_id = m.member_id " +
+                "LEFT JOIN entraineur e ON u.user_id = e.entraineur_id " +
+                "WHERE u.user_id = ?";
+
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setInt(1, userId);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                int id = resultSet.getInt("user_id");
+                String firstName = resultSet.getString("first_name");
+                String lastName = resultSet.getString("last_name");
+                String birthDate = String.valueOf(resultSet.getDate("birth_date"));
+                String email = resultSet.getString("email");
+                String password = resultSet.getString("password");
+                String role = resultSet.getString("role");
+                String sport = resultSet.getString("sport"); // Can be null if the user is not a member
+                String speciality = resultSet.getString("speciality"); // Can be null if the user is not an entraineur
+
+                // Create a User object and set the fields
+                user = new User(id, lastName, firstName, birthDate, email, password, role);
+                user.setSport(sport); // Set sport if the user is a member
+                user.setSpeciality(speciality); // Set speciality if the user is an entraineur
+            }
+        } catch (SQLException e) {
+            System.err.println("SQL Error: " + e.getMessage());
+        }
+        return user;
+    }
+
+    public boolean updateUser(User user) {
+        Connection connection = null;
+        try {
+            connection = getConnection();
+            connection.setAutoCommit(false);
+
+            String updateUserQuery = "UPDATE user SET first_name = ?, last_name = ?, birth_date = ?, email = ?, password = ?, role = ? WHERE user_id = ?";
+            try (PreparedStatement userStatement = connection.prepareStatement(updateUserQuery)) {
+                userStatement.setString(1, user.getFirst_name());
+                userStatement.setString(2, user.getLast_name());
+                userStatement.setDate(3, java.sql.Date.valueOf(user.getBirth_date()));
+                userStatement.setString(4, user.getEmail());
+                userStatement.setString(5, user.getPassword());
+                userStatement.setString(6, user.getRole());
+                userStatement.setInt(7, user.getId());
+
+                int rowsUpdated = userStatement.executeUpdate();
+                if (rowsUpdated == 0) {
+                    throw new SQLException("Failed to update user. No rows affected.");
+                }
+
+                if ("member".equalsIgnoreCase(user.getRole())) {
+                    String updateMemberQuery = "UPDATE member SET sport = ? WHERE member_id = ?";
+                    try (PreparedStatement memberStatement = connection.prepareStatement(updateMemberQuery)) {
+                        memberStatement.setString(1, user.getSport());
+                        memberStatement.setInt(2, user.getId());
+                        memberStatement.executeUpdate();
+                    }
+                } else if ("entraineur".equalsIgnoreCase(user.getRole())) {
+                    String updateEntraineurQuery = "UPDATE entraineur SET speciality = ? WHERE entraineur_id = ?";
+                    try (PreparedStatement entraineurStatement = connection.prepareStatement(updateEntraineurQuery)) {
+                        entraineurStatement.setString(1, user.getSpeciality());
+                        entraineurStatement.setInt(2, user.getId());
+                        entraineurStatement.executeUpdate();
+                    }
+                } else if ("admin".equalsIgnoreCase(user.getRole())) {
+
+                } else {
+                    throw new SQLException("Invalid role: " + user.getRole());
+                }
+            }
+
+            connection.commit();
+            System.out.println("User updated successfully!");
+            return true;
+
+        } catch (SQLException e) {
+            if (connection != null) {
+                try {
+                    connection.rollback();
+                } catch (SQLException ex) {
+                    System.err.println("Rollback failed: " + ex.getMessage());
+                }
+            }
+            System.err.println("SQL Error: " + e.getMessage());
+            return false;
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.setAutoCommit(true);
+                    connection.close();
+                } catch (SQLException e) {
+                    System.err.println("Failed to close connection: " + e.getMessage());
+                }
+            }
+        }
     }
 
     public boolean deleteUser(int userId) {

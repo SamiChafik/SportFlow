@@ -30,10 +30,10 @@ public class User {
         this.speciality = speciality;
     }
 
-    public User(int id, String first_name, String last_name, String birth_date, String email, String password, String role) {
+    public User(int id, String last_name, String first_name, String birth_date, String email, String password, String role) {
         this.id = id;
-        this.first_name = first_name;
         this.last_name = last_name;
+        this.first_name = first_name;
         this.birth_date = birth_date;
         this.email = email;
         this.password = password;
