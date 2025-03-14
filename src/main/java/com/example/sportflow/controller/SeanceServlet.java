@@ -1,6 +1,7 @@
 package com.example.sportflow.controller;
 
 import com.example.sportflow.DAO.SeanceDAO;
+import com.example.sportflow.model.Seance;
 import com.example.sportflow.model.User;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -10,6 +11,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @WebServlet("/session")
@@ -34,8 +37,8 @@ public class SeanceServlet extends HttpServlet {
                 case "new":
                     showNewForm(request, response);
                     break;
-                case "adduser":
-//                    addSeance(request, response);
+                case "add":
+                    addSeance(request, response);
                     break;
 
             }
@@ -54,5 +57,26 @@ public class SeanceServlet extends HttpServlet {
 
         RequestDispatcher dispatcher = request.getRequestDispatcher("addSeance.jsp");
         dispatcher.forward(request, response);
+    }
+
+    private void addSeance(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        String seance_name = request.getParameter("seance_name");
+        String dateHeure = request.getParameter("date_heure");
+        int id_member = Integer.parseInt(request.getParameter("id_member"));
+        int id_entraineur = Integer.parseInt(request.getParameter("id_entraineur"));
+
+        Seance seance = new Seance(seance_name, dateHeure, id_member, id_entraineur);
+
+        boolean isAdded = seanceDAO.addSeance(seance);
+
+        if (isAdded) {
+            response.sendRedirect("session?action=new");
+        } else {
+            request.setAttribute("errorMessage", "Failed to add seance");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("createSeance.jsp");
+            dispatcher.forward(request, response);
+        }
     }
 }

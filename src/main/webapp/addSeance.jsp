@@ -46,23 +46,23 @@
         <div id="form">
             <div class="form-container">
                 <h2 class="text-center mb-4">Create a New Seance</h2>
-                <form action="seance?action=add" method="post">
+                <form action="session?action=add" method="post">
                     <!-- Seance Name -->
                     <div class="form-group">
                         <label for="seanceName">Seance Name</label>
-                        <input type="text" class="form-control" id="seanceName" name="seanceName" placeholder="Enter seance name" required>
+                        <input type="text" class="form-control" id="seanceName" name="seance_name" placeholder="Enter seance name" required>
                     </div>
 
                     <!-- Date and Time -->
                     <div class="form-group">
                         <label for="dateHeure">Date and Time</label>
-                        <input type="datetime-local" class="form-control" id="dateHeure" name="dateHeure" required>
+                        <input type="datetime-local" class="form-control" id="dateHeure" name="date_heure" required>
                     </div>
 
                     <!-- Member Selector -->
                     <div class="form-group">
                         <label for="member">Member</label>
-                        <select class="form-control" id="member" name="members" required>
+                        <select class="form-control" id="member" name="id_member" required>
                             <option value="">Select a member</option>
                             <% if (members != null) {
                                 for (User member : members) { %>
@@ -75,7 +75,7 @@
                     <!-- Entraineur Selector -->
                     <div class="form-group">
                         <label for="entraineur">Entraineur</label>
-                        <select class="form-control" id="entraineur" name="entraineurs" required>
+                        <select class="form-control" id="entraineur" name="id_entraineur" required>
                             <option value="">Select an entraineur</option>
                             <% if (entraineurs != null) {
                                 for (User entraineur : entraineurs) { %>

@@ -1,5 +1,6 @@
 package com.example.sportflow.DAO;
 
+import com.example.sportflow.model.Seance;
 import com.example.sportflow.model.User;
 
 import java.sql.*;
@@ -92,5 +93,25 @@ public class SeanceDAO {
             System.err.println("SQL Error: " + e.getMessage());
         }
         return entraineurs;
+    }
+
+    public boolean addSeance(Seance seance) {
+        String sql = "INSERT INTO seance (seance_name, date_heure, member_id, entraineur_id) VALUES (?, ?, ?, ?)";
+
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setString(1, seance.getSeance_name());
+            statement.setString(2, seance.getSeance_date());
+            statement.setInt(3, seance.getMember_id());
+            statement.setInt(4, seance.getEntraineur_id());
+
+            int rowsInserted = statement.executeUpdate();
+            return rowsInserted > 0;
+
+        } catch (SQLException e) {
+            System.err.println("SQL Error: " + e.getMessage());
+            return false;
+        }
     }
 }

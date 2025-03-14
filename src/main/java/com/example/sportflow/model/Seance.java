@@ -22,6 +22,13 @@ public class Seance {
         this.seance_date = seance_date;
     }
 
+    public Seance(String seance_name, String seance_date, int member_id, int entraineur_id) {
+        this.seance_name = seance_name;
+        this.seance_date = seance_date;
+        this.member_id = member_id;
+        this.entraineur_id = entraineur_id;
+    }
+
     public int getSeance_id() {
         return seance_id;
     }
