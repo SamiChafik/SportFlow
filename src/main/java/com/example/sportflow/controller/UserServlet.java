@@ -15,7 +15,7 @@ import java.util.List;
 
 @WebServlet("/user")
 public class UserServlet extends HttpServlet {
-    private UserDAO userDAO;
+    private UserDAO userDAO = new UserDAO();
 
     @Override
     public void init() {
