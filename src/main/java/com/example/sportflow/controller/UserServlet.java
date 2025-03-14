@@ -19,8 +19,6 @@ public class UserServlet extends HttpServlet {
 
     @Override
     public void init() {
-        userDAO = new UserDAO();
-        userDAO.createUserTable();
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
