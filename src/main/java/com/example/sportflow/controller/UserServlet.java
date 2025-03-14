@@ -135,7 +135,7 @@ public class UserServlet extends HttpServlet {
 
     private void updateUser(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
-        int id = Integer.parseInt(request.getParameter("id"));
+        int id = Integer.parseInt(request.getParameter("user_id"));
         String last_name = request.getParameter("last_name");
         String first_name = request.getParameter("first_name");
         String birth_date = request.getParameter("birth_date");
@@ -150,7 +150,7 @@ public class UserServlet extends HttpServlet {
         boolean updated = userDAO.updateUser(user);
 
         if (updated) {
-            response.sendRedirect("user?action=list");
+            response.sendRedirect("user?action=listuser");
         } else {
             request.setAttribute("errorMessage", "Failed to update user");
             RequestDispatcher dispatcher = request.getRequestDispatcher("editUser.jsp");
