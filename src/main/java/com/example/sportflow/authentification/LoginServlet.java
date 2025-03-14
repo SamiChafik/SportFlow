@@ -1,5 +1,6 @@
 package com.example.sportflow.authentification;
 
+import com.example.sportflow.DAO.SeanceDAO;
 import com.example.sportflow.DAO.UserDAO;
 import com.example.sportflow.model.User;
 import jakarta.servlet.RequestDispatcher;
@@ -20,6 +21,9 @@ public class LoginServlet extends HttpServlet {
     public void init() {
         userDAO = new UserDAO();
         userDAO.createUserTable();
+
+        SeanceDAO seanceDAO = new SeanceDAO();
+        seanceDAO.createSeanceTable();
 
     }
 
