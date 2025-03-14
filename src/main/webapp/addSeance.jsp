@@ -62,7 +62,7 @@
                     <!-- Member Selector -->
                     <div class="form-group">
                         <label for="member">Member</label>
-                        <select class="form-control" id="member" name="member_id" required>
+                        <select class="form-control" id="member" name="members" required>
                             <option value="">Select a member</option>
                             <% if (members != null) {
                                 for (User member : members) { %>
@@ -75,7 +75,7 @@
                     <!-- Entraineur Selector -->
                     <div class="form-group">
                         <label for="entraineur">Entraineur</label>
-                        <select class="form-control" id="entraineur" name="entraineur_id" required>
+                        <select class="form-control" id="entraineur" name="entraineurs" required>
                             <option value="">Select an entraineur</option>
                             <% if (entraineurs != null) {
                                 for (User entraineur : entraineurs) { %>

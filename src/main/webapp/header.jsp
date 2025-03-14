@@ -35,12 +35,12 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/session?action=">
+                    <a class="nav-link" href="/session?action=new">
                         <button class="btn btn-info">Ajouter une session</button>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/session?action=">
+                    <a class="nav-link" href="/session?action=listseance">
                         <button class="btn btn-secondary">Liste des sessions</button>
                     </a>
                 </li>
@@ -49,7 +49,7 @@
                 <!-- Actions for member -->
                 <% if ("member".equals(role)) { %>
                 <li class="nav-item">
-                    <a class="nav-link" href="/session?action=">
+                    <a class="nav-link" href="/session?action=new">
                         <button class="btn btn-info">Ajouter une session</button>
                     </a>
                 </li>
@@ -63,7 +63,7 @@
                 <!-- Actions for entraineur -->
                 <% if ("entraineur".equals(role)) { %>
                 <li class="nav-item">
-                    <a class="nav-link" href="/session?action=">
+                    <a class="nav-link" href="/session?action=new">
                         <button class="btn btn-info">Ajouter une session</button>
                     </a>
                 </li>

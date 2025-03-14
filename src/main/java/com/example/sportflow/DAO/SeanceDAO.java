@@ -1,5 +1,7 @@
 package com.example.sportflow.DAO;
 
+import com.example.sportflow.model.User;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,5 +48,49 @@ public class SeanceDAO {
             System.err.println("SQL Error: " + e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    public List<User> selectAllMembers() {
+        List<User> members = new ArrayList<>();
+        String sql = "SELECT user_id, first_name, last_name FROM user WHERE role = 'member'";
+
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql);
+             ResultSet resultSet = statement.executeQuery()) {
+
+            while (resultSet.next()) {
+                int id = resultSet.getInt("user_id");
+                String firstName = resultSet.getString("first_name");
+                String lastName = resultSet.getString("last_name");
+
+                User member = new User(id, lastName, firstName);
+                members.add(member);
+            }
+        } catch (SQLException e) {
+            System.err.println("SQL Error: " + e.getMessage());
+        }
+        return members;
+    }
+
+    public List<User> selectAllEntraineurs() {
+        List<User> entraineurs = new ArrayList<>();
+        String sql = "SELECT user_id, first_name, last_name FROM user WHERE role = 'entraineur'";
+
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql);
+             ResultSet resultSet = statement.executeQuery()) {
+
+            while (resultSet.next()) {
+                int id = resultSet.getInt("user_id");
+                String firstName = resultSet.getString("first_name");
+                String lastName = resultSet.getString("last_name");
+
+                User entraineur = new User(id, lastName, firstName);
+                entraineurs.add(entraineur);
+            }
+        } catch (SQLException e) {
+            System.err.println("SQL Error: " + e.getMessage());
+        }
+        return entraineurs;
     }
 }
